@@ -1,21 +1,54 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, {useState} from 'react';
+import { StyleSheet, Text, View, ScrollView, Button, TextInput, FlatList } from 'react-native';
+import Items from './components/item'
 
 export default function App() {
+  const [txtvalue, setTxtvalue] = useState('')
+  const [goals, setGoals] = useState([])
+    
+  const addValue = () => setGoals((curGoals) => (
+    [...curGoals, {id:  Math.random().toString(), value: txtvalue}]))
+  const changeHandler = (txt) => setTxtvalue(txt)
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <View style={styles.screen} >
+      <View style={styles.inputContainer}>
+        <TextInput 
+          style={styles.input} 
+          placeholder="input here"
+          value={txtvalue}
+          onChangeText={changeHandler}
+        />
+        <Button title="ADD" onPress={addValue}/>
+      </View>
+      <Items items={goals} />
+  </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+  screen: {
+    padding: 50
   },
+  inputContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center' 
+  },
+  input: {
+    width: '80%',
+    borderColor: 'black',
+    borderWidth: 1,
+    padding: 10
+  },
+  goals: {
+    marginVertical: 3
+  },
+  item: {
+    borderWidth: 1,
+    borderColor: 'black',
+    marginVertical: 3,
+    backgroundColor: '#ccc'
+  }
+
 });
